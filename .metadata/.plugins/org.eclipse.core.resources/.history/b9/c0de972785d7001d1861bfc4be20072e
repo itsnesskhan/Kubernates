@@ -1,0 +1,12 @@
+package com.order.feinClient;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@FeignClient(name = "ITEM-SERVICE",url = "http://localhost:8080/api/v1/item")
+public interface ItemClient {
+
+	@GetMapping("/get-all")
+	public ResponseEntity<com.order.payloads.CommonApiResponse> getAllItems();
+}

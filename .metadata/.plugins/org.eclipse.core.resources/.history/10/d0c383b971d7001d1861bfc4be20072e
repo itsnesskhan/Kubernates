@@ -1,0 +1,38 @@
+package com.item.service.impl;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.item.payloads.CommonApiResponse;
+import com.item.payloads.ItemDto;
+import com.item.service.ItemService;
+
+@Service
+public class ItemServiceImpl implements ItemService {
+
+	@Autowired
+	private ItemService itemService;
+	
+	@Autowired
+	private ModelMapper modelMapper;
+	
+	@Override
+	public CommonApiResponse addItem(ItemDto itemDto) {
+		
+		return null;
+	}
+
+	@Override
+	public CommonApiResponse getAllItem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CommonApiResponse getItemById(Integer itemId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

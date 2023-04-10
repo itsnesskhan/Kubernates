@@ -1,0 +1,43 @@
+package com.order.service.impl;
+
+import java.time.LocalDateTime;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import com.order.model.Order;
+import com.order.payloads.CommonApiResponse;
+import com.order.payloads.OrderDto;
+import com.order.repository.OrderRepository;
+import com.order.service.OrderService;
+
+@Service
+public class OrderServiceImpl implements OrderService {
+
+	private OrderRepository orderRepository;
+	
+	private ModelMapper modelMapper;
+	
+	@Override
+	public CommonApiResponse addOrder(OrderDto orderDto) {
+		
+		Order order = modelMapper.map(orderDto, Order.class);
+		
+		order = orderRepository.save(order);
+		return CommonApiResponse.builder().data(order).time(LocalDateTime.now()).status(HttpStatus.CREATED).build();
+	}
+
+	@Override
+	public CommonApiResponse getAllOrders() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CommonApiResponse getOrderById(Integer oid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
