@@ -25,7 +25,6 @@ import com.item.model.Item;
 import com.item.payloads.CommonApiResponse;
 import com.item.payloads.ItemDto;
 import com.item.service.ItemService;
-import com.mysql.cj.protocol.x.Ok;
 
 @WebMvcTest(ItemController.class)
 class ItemControllerTest {
@@ -144,7 +143,7 @@ class ItemControllerTest {
 		mockMvc.perform(request)
 				.andExpect(MockMvcResultMatchers.jsonPath("$.data.itemName", Matchers.equalTo("updated name")))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.data.cost", Matchers.equalTo(500d)))
-				.andExpect(status().isOk()).andReturn();
+				.andExpect(status().isCreated()).andReturn();
 	}
 
 	@Test

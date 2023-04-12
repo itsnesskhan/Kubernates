@@ -25,7 +25,6 @@ import com.item.model.Item;
 import com.item.payloads.CommonApiResponse;
 import com.item.payloads.ItemDto;
 import com.item.service.ItemService;
-import com.mysql.cj.protocol.x.Ok;
 
 @WebMvcTest(ItemController.class)
 class ItemControllerTest {
@@ -127,14 +126,12 @@ class ItemControllerTest {
 	@Test
 	void testUpdateItem() throws Exception {
 
+		CommonApiResponse apiResponse = CommonApiResponse.builder().data(itemDto).status(HttpStatus.CREATED).build();
 
+		String jsonRequest = objectMapper.writeValueAsString(itemDto);
 		
 		itemDto.setCost(500d);
 		itemDto.setItemName("updated name");
-		
-		String jsonRequest = objectMapper.writeValueAsString(itemDto);
-		
-		CommonApiResponse apiResponse = CommonApiResponse.builder().data(itemDto).status(HttpStatus.CREATED).build();
 
 		when(itemService.updateItem(itemDto)).thenReturn(apiResponse);
 
@@ -143,8 +140,8 @@ class ItemControllerTest {
 
 		mockMvc.perform(request)
 				.andExpect(MockMvcResultMatchers.jsonPath("$.data.itemName", Matchers.equalTo("updated name")))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.data.cost", Matchers.equalTo(500d)))
-				.andExpect(status().isOk()).andReturn();
+				.andExpect(MockMvcResultMatchers.jsonPath("$.data.quantity", Matchers.equalTo(500d)))
+				.andExpect(status().isCreated()).andReturn();
 	}
 
 	@Test
