@@ -1,0 +1,198 @@
+package com.order.service.impl;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Optional;
+
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.order.feinClient.ItemClient;
+import com.order.model.Order;
+import com.order.payloads.CommonApiResponse;
+import com.order.payloads.ItemDto;
+import com.order.payloads.OrderDto;
+import com.order.repository.OrderRepository;
+
+@ExtendWith(MockitoExtension.class)
+class OrderServiceImplTest {
+
+	@InjectMocks
+	private OrderServiceImpl orderService;
+	
+	@Mock
+	private ModelMapper modelMapper;
+
+	@Mock
+	private OrderRepository orderRepository;
+	
+	@Mock
+	private ObjectMapper objectMapper;
+	
+	@Mock
+	private ItemClient itemClient;
+
+	private OrderDto orderDto;
+	
+	private Order order;
+	
+	private ItemDto itemDto;
+
+	@BeforeEach
+	void setUp() throws Exception {
+
+	  orderDto = OrderDto.builder()
+			  	.oid(1)
+			  	.orderDate(LocalDateTime.now())
+			  	.orderStatus("PENDING")
+			  	.item_id(1)
+			  	.build();
+	  
+	  order = Order.builder().oid(1).orderDate(LocalDateTime.now()).orderStatus("PENDING").item_id(1).build();
+	  
+	  
+	  
+	  itemDto = ItemDto.builder().itemId(1).itemName("test").cost(100d).quantity(10).build();
+	 
+	  
+	  
+	  
+	}
+
+	@Test
+	void testAddOrder() {
+		
+		when(orderRepository.save(any(Order.class))).thenReturn(order);		
+		
+		CommonApiResponse apiResponse = CommonApiResponse.builder().data(itemDto).status(HttpStatus.OK).build();
+		when(itemClient.getItemById(anyInt())).thenReturn(ResponseEntity.ok(apiResponse));
+		when(modelMapper.map(orderDto, Order.class )).thenReturn(order);		
+		when(modelMapper.map(order, OrderDto.class )).thenReturn(orderDto);
+		
+		CommonApiResponse orderApiResponse = orderService.addOrder(orderDto);
+		OrderDto orderDto = (OrderDto) orderApiResponse.getData();
+		
+		ItemDto itemDto = (ItemDto) apiResponse.getData();
+		
+		assertEquals(HttpStatus.CREATED, orderApiResponse.getStatus());
+		assertThat(orderApiResponse.getData()).isNotNull();
+		assertThat(itemDto.getItemId()).isGreaterThan(0);
+		assertThat(orderDto.getOid()).isGreaterThan(0);
+	}
+
+	@Test
+	void testGetAllOrders() {
+		
+		ItemDto itemDto2 = ItemDto.builder().itemId(2).itemName("test2").cost(100d).quantity(10).build();
+		
+		Order order2 = Order.builder().oid(2).orderDate(LocalDateTime.now()).orderStatus("ON THE WAY").item_id(2).build();
+		
+		List<Order> orderList = new ArrayList<Order>();
+		orderList.add(order);
+		orderList.add(order2);
+		
+		when(orderRepository.findAll()).thenReturn(orderList);
+		
+		when(modelMapper.map(orderList, OrderDto[].class )).thenReturn(orderList.toArray(new OrderDto[orderList.size()]));		
+		
+		CommonApiResponse feinapiResponse = CommonApiResponse.builder().data(List.of(itemDto, itemDto2)).status(HttpStatus.OK).build();
+
+		when(itemClient.getAllItems()).thenReturn(ResponseEntity.ok(feinapiResponse));
+		
+	    Mockito.when(objectMapper.convertValue(Mockito.any(), Mockito.eq(ItemDto.class)))
+        .thenReturn(itemDto);
+		
+		CommonApiResponse apiResponse = orderService.getAllOrders();
+		
+		OrderDto[] orderdtos = (OrderDto[]) apiResponse.getData();
+		 
+		
+		assertThat(apiResponse.getData()).isNotNull();
+		assertEquals(HttpStatus.OK, apiResponse.getStatus());
+		assertEquals(2, orderdtos.length);
+		
+	}
+
+	@Test
+	void testGetOrderById() {
+		
+		CommonApiResponse apiResponse = CommonApiResponse.builder().data(itemDto).status(HttpStatus.OK).build();
+		when(orderRepository.findById(1)).thenReturn(Optional.of(order));
+
+		when(modelMapper.map(order, OrderDto.class )).thenReturn(orderDto);
+		
+		when(itemClient.getItemById(anyInt())).thenReturn(ResponseEntity.ok(apiResponse));
+		CommonApiResponse ordeResponse = orderService.getOrderById(1);
+		
+		OrderDto orderDto = (OrderDto) ordeResponse.getData();
+		
+		assertThat(ordeResponse).isNotNull();
+		assertThat(orderDto).isNotNull();
+		assertEquals(1, orderDto.getOid());
+		
+	}
+
+	@Test
+	void testUpdateOrder() {
+		
+		CommonApiResponse fiegnapiResponse = CommonApiResponse.builder().data(itemDto).status(HttpStatus.OK).build();
+		
+		when(orderRepository.findById(1)).thenReturn(Optional.of(order));
+		when(orderRepository.save(any(Order.class))).thenReturn(order);	
+			
+		when(modelMapper.map(order, OrderDto.class )).thenReturn(orderDto);
+		when(itemClient.getItemById(anyInt())).thenReturn(ResponseEntity.ok(fiegnapiResponse));
+		
+		OrderDto orderDtoToUpdate = orderDto;
+		orderDtoToUpdate.setOrderStatus("PENDING");
+		
+		CommonApiResponse apiResponse = orderService.updateOrder(orderDtoToUpdate);
+		
+		OrderDto orderDto = (OrderDto) apiResponse.getData();
+		
+		assertThat(apiResponse).isNotNull();
+		assertEquals(HttpStatus.OK, apiResponse.getStatus());
+		assertThat(orderDto.getOrderStatus()).isEqualTo("PENDING");
+		assertThat(orderDto).isNotNull();
+		
+	}
+
+	@Test
+	void testDeleteOrder() {
+		
+		doNothing().when(orderRepository).deleteById(1);
+		when(orderRepository.findById(1)).thenReturn(Optional.of(order));
+		
+		CommonApiResponse apiResponse = orderService.deleteOrder(1);
+		String data = (String) apiResponse.getData();
+		
+		verify(orderRepository, times(1)).deleteById(1);
+		assertEquals("ORDER DELETED SUCCESSFULLY!", data);
+		assertEquals(HttpStatus.OK, apiResponse.getStatus());
+	}
+
+}

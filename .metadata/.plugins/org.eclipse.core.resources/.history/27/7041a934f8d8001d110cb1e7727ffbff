@@ -1,0 +1,61 @@
+package com.order.controller;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.time.LocalDateTime;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import com.order.model.Order;
+import com.order.payloads.ItemDto;
+import com.order.payloads.OrderDto;
+import com.order.service.OrderService;
+
+@WebMvcTest(OrderController.class)
+class OrderControllerTest {
+	
+	private MockMvc mockMvc;
+	
+	@MockBean
+	private OrderService orderService;
+	
+	private OrderDto orderDto;
+	
+	private Order order;
+	
+	private ItemDto itemDto;
+
+	@BeforeEach
+	void setUp() throws Exception {
+		MockMvcBuilders.standaloneSetup(OrderController.class).build();
+		
+		orderDto = OrderDto.builder().oid(1).orderDate(LocalDateTime.now()).orderStatus("PENDING").item_id(1).build();
+
+		order = Order.builder().oid(1).orderDate(LocalDateTime.now()).orderStatus("PENDING").item_id(1).build();
+
+		itemDto = ItemDto.builder().itemId(1).itemName("test").cost(100d).quantity(10).build();
+	}
+
+	@Test
+	void testAddOrder() {
+		
+		
+	}
+
+	@Test
+	void testGetAllOrders() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testDeleteOrderById() {
+		fail("Not yet implemented");
+	}
+
+}

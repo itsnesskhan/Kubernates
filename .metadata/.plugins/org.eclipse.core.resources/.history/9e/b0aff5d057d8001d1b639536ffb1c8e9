@@ -1,0 +1,52 @@
+package com.item.service.impl;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.item.repository.ItemRepository;
+
+@ExtendWith(MockitoExtension.class)
+class ItemServiceImplTest {
+	
+	@InjectMocks
+	private ItemServiceImpl itemService;
+	
+	@Mock
+	private ItemRepository itemRepository;
+
+	@BeforeEach
+	void setUp() throws Exception {
+	}
+
+	@Test
+	void testAddItem() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetAllItem() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetItemById() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testUpdateItem() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testDeleteItem() {
+		fail("Not yet implemented");
+	}
+
+}

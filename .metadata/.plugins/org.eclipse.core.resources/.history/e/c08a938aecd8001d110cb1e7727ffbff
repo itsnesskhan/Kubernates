@@ -1,0 +1,150 @@
+package com.item.service.impl;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+
+import com.item.model.Item;
+import com.item.payloads.CommonApiResponse;
+import com.item.payloads.ItemDto;
+import com.item.repository.ItemRepository;
+
+@ExtendWith(MockitoExtension.class)
+class ItemServiceImplTest {
+	
+	@InjectMocks
+	private ItemServiceImpl itemService;
+	
+	@Mock
+	private ItemRepository itemRepository;
+	
+	private List<ItemDto> itemDtoList = new ArrayList<>();
+	
+	private List<Item> itemsList = new ArrayList<>();
+	
+	@Mock
+	private ModelMapper modelMapper;
+	
+	@Mock
+	private Environment environment;
+
+	@BeforeEach
+	void setUp() throws Exception {
+		
+		ItemDto build = ItemDto.builder().itemId(1).itemName("test").cost(100d).quantity(10).build();
+		  ItemDto build2 = ItemDto.builder().itemId(2).itemName("test2").cost(100d).quantity(10).build();
+		  itemDtoList.add(build);
+		  itemDtoList.add(build2);
+		  
+		  Item build3 = Item.builder().itemId(1).itemName("test").cost(100d).quantity(10).build();
+		  Item build4 = Item.builder().itemId(2).itemName("test2").cost(100d).quantity(10).build();
+		  itemsList.add(build3);
+		  itemsList.add(build4);
+	}
+
+	@Test
+	void testAddItem() {
+		
+		when(modelMapper.map(itemDtoList.get(0), Item.class)).thenReturn(itemsList.get(0));
+		when(modelMapper.map(itemsList.get(0), ItemDto.class)).thenReturn(itemDtoList.get(0));
+		
+		when(itemRepository.save(itemsList.get(0))).thenReturn(itemsList.get(0));
+		
+		CommonApiResponse apiResponse = itemService.addItem(itemDtoList.get(0));
+		
+		ItemDto itemDto = (ItemDto) apiResponse.getData();
+		
+		assertEquals(HttpStatus.CREATED, apiResponse.getStatus());
+		assertThat(itemDto).isNotNull();
+		assertThat(itemDto.getItemId()).isGreaterThan(0);
+	}
+
+	@Test
+	void testGetAllItems() {
+
+		when(itemRepository.findAll()).thenReturn(itemsList);
+		
+		when(modelMapper.map(itemsList, ItemDto[].class )).thenReturn(itemDtoList.toArray(new ItemDto[itemsList.size()]));		
+
+		
+		CommonApiResponse apiResponse = itemService.getAllItem();
+		
+		ItemDto[] itemDtos = (ItemDto[]) apiResponse.getData();
+		
+		assertEquals(HttpStatus.OK, apiResponse.getStatus());
+		assertThat(itemDtos).isNotNull();
+		assertEquals(2, itemDtos.length);
+	}
+
+	@Test
+	void testGetItemById() {
+		
+		when(itemRepository.findById(1)).thenReturn(Optional.of(itemsList.get(0)));
+		when(modelMapper.map(itemsList.get(0), ItemDto.class)).thenReturn(itemDtoList.get(0));
+		
+		CommonApiResponse apiResponse = itemService.getItemById(1);
+		
+		ItemDto itemDto = (ItemDto) apiResponse.getData();
+		
+		assertEquals(HttpStatus.OK, apiResponse.getStatus());
+		assertThat(itemDto).isNotNull();
+		assertEquals(1, itemDto.getItemId());
+	}
+
+	@Test
+	void testUpdateItem() {
+	
+		when(itemRepository.save(itemsList.get(0))).thenReturn(itemsList.get(0));
+		when(modelMapper.map(itemsList.get(0), ItemDto.class)).thenReturn(itemDtoList.get(0));
+		
+		when(itemRepository.findById(1)).thenReturn(Optional.of(itemsList.get(0)));
+		
+		ItemDto item = itemDtoList.get(0);
+		item.setCost(500d);
+		item.setQuantity(20);
+		
+		CommonApiResponse apiResponse = itemService.updateItem(item);
+		
+		ItemDto itemDto = (ItemDto) apiResponse.getData();
+		
+		assertEquals(HttpStatus.OK, apiResponse.getStatus());
+		assertThat(itemDto).isNotNull();
+		assertEquals(1, itemDto.getItemId());
+		assertThat(itemDto.getCost()).isEqualTo(500d);
+		assertThat(itemDto.getQuantity()).isEqualTo(10);
+	}
+
+	@Test
+	void testDeleteItem() {
+		when(itemRepository.findById(1)).thenReturn(Optional.of(itemsList.get(0)));
+		doNothing().when(itemRepository).deleteById(1);;
+		
+		CommonApiResponse apiResponse = itemService.deleteItem(1);
+		
+		String data = (String) apiResponse.getData();
+		
+//		verify(itemRepository, times(1)).deleteById(1);
+		assertEquals("ORDER DELETED SUCCESSFULLY!", data);
+		assertEquals(HttpStatus.OK, apiResponse.getStatus());
+	}
+
+}

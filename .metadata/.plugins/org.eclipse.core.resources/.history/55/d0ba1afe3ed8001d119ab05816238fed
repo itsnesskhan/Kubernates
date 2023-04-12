@@ -1,0 +1,133 @@
+package com.order.service.impl;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.order.feinClient.ItemClient;
+import com.order.model.Order;
+import com.order.payloads.CommonApiResponse;
+import com.order.payloads.ItemDto;
+import com.order.payloads.OrderDto;
+import com.order.repository.OrderRepository;
+
+@ExtendWith(MockitoExtension.class)
+class OrderServiceImplTest {
+
+	@InjectMocks
+	private OrderServiceImpl orderService;
+	
+	@Mock
+	private ModelMapper modelMapper;
+
+	@Mock
+	private OrderRepository orderRepository;
+	
+	@Mock
+	private ItemClient itemClient;
+
+	private List<OrderDto> orderDtoList = new ArrayList<>();
+	
+	private List<Order> ordersList = new ArrayList<>();
+	
+	private List<ItemDto> itemsList = new ArrayList<>();
+
+	@BeforeEach
+	void setUp() throws Exception {
+
+	  OrderDto orderDto = OrderDto.builder().oid(1).orderDate(LocalDateTime.now()).orderStatus("PENDING").item_id(1).build();
+	  OrderDto orderDto2 = OrderDto.builder().oid(2).orderDate(LocalDateTime.now()).orderStatus("ON THE WAY").item_id(2).build();
+	  
+	  orderDtoList.add(orderDto);
+	  orderDtoList.add(orderDto2);
+	  
+	  Order order = Order.builder().oid(1).orderDate(LocalDateTime.now()).orderStatus("PENDING").item_id(1).build();
+	  Order order2 = Order.builder().oid(2).orderDate(LocalDateTime.now()).orderStatus("ON THE WAY").item_id(2).build();
+	  
+	  ordersList.add(order);
+	  ordersList.add(order2);
+	  
+	  ItemDto build = ItemDto.builder().itemId(1).itemName("test").cost(100d).quantity(10).build();
+	  ItemDto build2 = ItemDto.builder().itemId(2).itemName("test2").cost(100d).quantity(10).build();
+	  itemsList.add(build);
+	  itemsList.add(build2);
+	  
+	  when(modelMapper.map(orderDtoList.get(0), Order.class )).thenReturn(ordersList.get(0));		
+	  when(modelMapper.map(ordersList.get(0), OrderDto.class )).thenReturn(orderDtoList.get(0));
+	}
+
+	@Test
+	void testAddOrder() {
+		
+		when(orderRepository.save(any(Order.class))).thenReturn(ordersList.get(0));		
+		
+		CommonApiResponse apiResponse = CommonApiResponse.builder().data(itemsList.get(0)).status(HttpStatus.OK).build();
+		when(itemClient.getItemById(anyInt())).thenReturn(ResponseEntity.ok(apiResponse));
+		
+		
+		CommonApiResponse orderApiResponse = orderService.addOrder(orderDtoList.get(0));
+		OrderDto orderDto = (OrderDto) orderApiResponse.getData();
+		
+		ItemDto itemDto = (ItemDto) apiResponse.getData();
+		
+		assertEquals(HttpStatus.CREATED, orderApiResponse.getStatus());
+		assertThat(orderApiResponse.getData()).isNotNull();
+		assertThat(itemDto.getItemId()).isGreaterThan(0);
+		assertThat(orderDto.getOid()).isGreaterThan(0);
+	}
+
+	@Test
+	void testGetAllOrders() {
+		
+		when(orderRepository.findAll()).thenReturn(ordersList);
+		
+		when(modelMapper.map(ordersList, OrderDto[].class )).thenReturn(orderDtoList.toArray(new OrderDto[ordersList.size()]));		
+	
+		CommonApiResponse feinapiResponse = CommonApiResponse.builder().data(itemsList).status(HttpStatus.OK).build();
+		when(itemClient.getAllItems()).thenReturn(ResponseEntity.ok(feinapiResponse));
+//		when(itemClient.getAllItems().getBody().getData()).thenReturn(itemsList);
+		
+		CommonApiResponse apiResponse = orderService.getAllOrders();
+		
+		List<OrderDto> list = (List<OrderDto>) apiResponse.getData();
+		
+		
+		assertThat(apiResponse.getData()).isNotNull();
+		assertEquals(HttpStatus.OK, apiResponse.getStatus());
+		assertEquals(2, list.size());
+		
+	}
+
+	@Test
+	void testGetOrderById() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testUpdateOrder() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testDeleteOrder() {
+		fail("Not yet implemented");
+	}
+
+}

@@ -10,4 +10,8 @@ public interface ItemService {
 	CommonApiResponse getAllItem();
 	
 	CommonApiResponse getItemById(Integer itemId);
+	
+	CommonApiResponse updateItem(ItemDto itemDto);
+	
+	CommonApiResponse deleteItem(Integer id);
 }

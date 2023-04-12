@@ -11,4 +11,8 @@ public interface OrderService {
 	
 	CommonApiResponse getOrderById(Integer oid);
 	
+	CommonApiResponse updateOrder(OrderDto orderDto);
+	
+	CommonApiResponse deleteOrder(Integer id);
+	
 }

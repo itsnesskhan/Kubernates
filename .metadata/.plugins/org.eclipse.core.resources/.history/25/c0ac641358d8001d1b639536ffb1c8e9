@@ -1,0 +1,66 @@
+package com.item.service.impl;
+
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.item.model.Item;
+import com.item.payloads.ItemDto;
+import com.item.repository.ItemRepository;
+
+@ExtendWith(MockitoExtension.class)
+class ItemServiceImplTest {
+	
+	@InjectMocks
+	private ItemServiceImpl itemService;
+	
+	@Mock
+	private ItemRepository itemRepository;
+	
+	private List<ItemDto> itemDtoList = new ArrayList<>();
+	
+	private List<Item> itemsList = new ArrayList<>();
+
+	@BeforeEach
+	void setUp() throws Exception {
+		
+		ItemDto build = ItemDto.builder().itemId(1).itemName("test").cost(100d).quantity(10).build();
+		  ItemDto build2 = ItemDto.builder().itemId(2).itemName("test2").cost(100d).quantity(10).build();
+		  itemsList.add(build);
+		  itemsList.add(build2);
+	}
+
+	@Test
+	void testAddItem() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetAllItem() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetItemById() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testUpdateItem() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testDeleteItem() {
+		fail("Not yet implemented");
+	}
+
+}

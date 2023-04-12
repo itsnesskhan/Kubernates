@@ -1,0 +1,57 @@
+package com.item.contorller;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+
+import com.item.model.Item;
+import com.item.payloads.ItemDto;
+import com.item.service.ItemService;
+
+@WebMvcTest(ItemController.class)
+class ItemControllerTest {
+
+	@Autowired
+	private MockMvc mockMvc;
+
+	@MockBean
+	private ItemService itemService;
+
+	private ItemDto itemDto;
+
+	private Item item;
+
+	@BeforeEach
+	void setUp() throws Exception {
+		itemDto = ItemDto.builder().itemId(1).itemName("test").cost(100d).quantity(10).build();
+
+		item = Item.builder().itemId(1).itemName("test").cost(100d).quantity(10).build();
+
+	}
+
+	@Test
+	void testGetAllItems() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testAddItem() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetItemById() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testDeleteItemById() {
+		fail("Not yet implemented");
+	}
+
+}

@@ -4,9 +4,11 @@ import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,6 +50,18 @@ public class ItemController {
 	@GetMapping("/get/{id}")
 	public ResponseEntity<CommonApiResponse> getItemById(@PathVariable Integer id){
 		CommonApiResponse response = itemService.getItemById(id);
+		return ResponseEntity.ok(response);
+	}
+	
+	@PutMapping("/update")
+	public ResponseEntity<CommonApiResponse> updateItem(@RequestBody ItemDto itemDto){
+		CommonApiResponse response = itemService.updateItem(itemDto);
+		return ResponseEntity.ok(response);
+	}
+	
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<CommonApiResponse> deleteItemById(@PathVariable Integer id){
+		CommonApiResponse response = itemService.deleteItem(id);
 		return ResponseEntity.ok(response);
 	}
 }

@@ -1,0 +1,71 @@
+package com.order.service.impl;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDateTime;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+
+import com.order.payloads.CommonApiResponse;
+import com.order.payloads.OrderDto;
+import com.order.repository.OrderRepository;
+import com.order.service.OrderService;
+
+@ExtendWith(MockitoExtension.class)
+class OrderServiceImplTest {
+
+	@InjectMocks
+	private OrderService orderService;
+
+	@Mock
+	private OrderRepository orderRepository;
+
+	private OrderDto orderDto;
+
+	@BeforeEach
+	void setUp() throws Exception {
+
+		orderDto = OrderDto.builder().orderDate(LocalDateTime.now()).orderStatus("PENDING").item_id(1).build();
+	}
+
+	@Test
+	void testAddOrder() {
+		
+		when(orderService.addOrder(orderDto)).thenReturn(null);
+		
+		CommonApiResponse commonApiResponse = CommonApiResponse.builder()
+												.data(orderDto)
+												.status(HttpStatus.CREATED)
+												.time(LocalDateTime.now())
+												.build();
+	}
+
+	@Test
+	void testGetAllOrders() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetOrderById() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testUpdateOrder() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testDeleteOrder() {
+		fail("Not yet implemented");
+	}
+
+}

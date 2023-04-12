@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun testUpdateItem()" project="Item-Service" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testsuite name="com.item.service.impl.ItemServiceImplTest" time="0.822" displayname="ItemServiceImplTest" uniqueid="[engine:junit-jupiter]/[class:com.item.service.impl.ItemServiceImplTest]">
+    <testcase name="testUpdateItem" classname="com.item.service.impl.ItemServiceImplTest" time="0.822" displayname="testUpdateItem()" uniqueid="[engine:junit-jupiter]/[class:com.item.service.impl.ItemServiceImplTest]/[method:testUpdateItem()]"/>
+  </testsuite>
+</testrun>
