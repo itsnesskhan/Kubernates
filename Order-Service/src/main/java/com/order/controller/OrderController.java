@@ -3,6 +3,7 @@ package com.order.controller;
 import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,8 +47,11 @@ public class OrderController {
 	
 	@GetMapping("/get/{id}")
 	public ResponseEntity<CommonApiResponse> getOrderById(@PathVariable Integer id){
-		CommonApiResponse allOrders = orderService.getOrderById(id);
-		return ResponseEntity.ok(allOrders);
+		CommonApiResponse order = orderService.getOrderById(id);
+		if (order.getStatus()==HttpStatus.NOT_FOUND) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(order);
+		}
+		return ResponseEntity.ok(order);
 	}
 	
 	@PutMapping("/update")

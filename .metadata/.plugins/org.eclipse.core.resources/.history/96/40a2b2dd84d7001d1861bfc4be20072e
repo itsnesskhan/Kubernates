@@ -1,5 +1,0 @@
-package com.order.feinClient;
-
-public interface ItemClient {
-
-}

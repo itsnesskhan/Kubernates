@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.order</groupId>
-	<artifactId>Order-Service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>order-service</artifactId>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>Order-Service</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -61,6 +61,18 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -69,6 +81,10 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<image>
+						<name>itsnesskhan/k8s-${project.artifactId}:${project.version}</name>
+						<pullPolicy>IF_NOT_PRESENT</pullPolicy>
+					</image>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>

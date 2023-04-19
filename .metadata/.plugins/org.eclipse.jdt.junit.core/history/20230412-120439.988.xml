@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun OrderControllerTest" project="Order-Service" tests="3" started="3" failures="0" errors="0" ignored="0">
-  <testsuite name="com.order.controller.OrderControllerTest" time="0.25" displayname="OrderControllerTest" uniqueid="[engine:junit-jupiter]/[class:com.order.controller.OrderControllerTest]">
-    <testcase name="testAddOrder" classname="com.order.controller.OrderControllerTest" time="0.224" displayname="testAddOrder()" uniqueid="[engine:junit-jupiter]/[class:com.order.controller.OrderControllerTest]/[method:testAddOrder()]"/>
-    <testcase name="testDeleteOrderById" classname="com.order.controller.OrderControllerTest" time="0.011" displayname="testDeleteOrderById()" uniqueid="[engine:junit-jupiter]/[class:com.order.controller.OrderControllerTest]/[method:testDeleteOrderById()]"/>
-    <testcase name="testGetAllOrders" classname="com.order.controller.OrderControllerTest" time="0.012" displayname="testGetAllOrders()" uniqueid="[engine:junit-jupiter]/[class:com.order.controller.OrderControllerTest]/[method:testGetAllOrders()]"/>
-  </testsuite>
-</testrun>

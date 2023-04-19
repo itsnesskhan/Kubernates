@@ -1,0 +1,55 @@
+version: '3'
+services:
+  db-service:
+    container_name: mydb
+    image: mysql:latest
+    volumes:
+        - myvolume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: kuber_db
+    ports:
+      - "3307:3306"
+    networks:
+      - spring-net
+  order-service:
+    container_name: order-service
+    image: itsnesskhan/k8s-order-service:0.0.1-SNAPSHOT 
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-service:3306/kuber_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL-AUTO: update
+      SPRING_JPA_SHOW-SQL: "true"
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: "true"
+      ITEM_SERVICE_URI: http://item-service
+      SPRING_PROFILES_ACTIVE: dev
+    ports:
+      - "9090:8080"
+    networks:
+      - spring-net  
+    depends_on:
+      - db-service        
+  item-service:
+    container_name: item-service
+    image: itsnesskhan/k8s-item-service:0.0.1-SNAPSHOT 
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-service:3306/kuber_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL-AUTO: update
+      SPRING_JPA_SHOW-SQL: "true"
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: "true"
+      SPRING_PROFILES_ACTIVE: dev
+    ports:
+      - "9091:8081"
+    networks:
+      - spring-net  
+    depends_on:
+      - db-service
+
+networks:
+  spring-net:
+
+volumes:
+  myvolume:

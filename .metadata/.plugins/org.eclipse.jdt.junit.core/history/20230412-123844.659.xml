@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun testGetItemByIdNotExist()" project="Item-Service" tests="1" started="1" failures="0" errors="0" ignored="0">
-  <testsuite name="com.item.contorller.ItemControllerTest" time="0.193" displayname="ItemControllerTest" uniqueid="[engine:junit-jupiter]/[class:com.item.contorller.ItemControllerTest]">
-    <testcase name="testGetItemByIdNotExist" classname="com.item.contorller.ItemControllerTest" time="0.193" displayname="testGetItemByIdNotExist()" uniqueid="[engine:junit-jupiter]/[class:com.item.contorller.ItemControllerTest]/[method:testGetItemByIdNotExist()]"/>
-  </testsuite>
-</testrun>

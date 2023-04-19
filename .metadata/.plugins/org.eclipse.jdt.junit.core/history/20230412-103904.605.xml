@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun testGetAllOrders()" project="Order-Service" tests="1" started="1" failures="0" errors="0" ignored="0">
-  <testsuite name="com.order.service.impl.OrderServiceImplTest" incomplete="true" displayname="OrderServiceImplTest" uniqueid="[engine:junit-jupiter]/[class:com.order.service.impl.OrderServiceImplTest]">
-    <testcase name="testGetAllOrders" classname="com.order.service.impl.OrderServiceImplTest" incomplete="true" displayname="testGetAllOrders()" uniqueid="[engine:junit-jupiter]/[class:com.order.service.impl.OrderServiceImplTest]/[method:testGetAllOrders()]"/>
-  </testsuite>
-</testrun>

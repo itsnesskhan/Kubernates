@@ -106,6 +106,66 @@ class OrderControllerTest {
 	}
 
 	@Test
+	void testOrderByIdExist() throws Exception {
+		CommonApiResponse apiResponse = CommonApiResponse.builder().data(orderDto).status(HttpStatus.OK).build();
+
+		when(orderService.getOrderById(1)).thenReturn(apiResponse);
+		
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/api/v1/order/get/1")
+												.contentType(MediaType.APPLICATION_JSON);
+		
+		mockMvc.perform(request)
+				.andExpect(status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.data.oid", Matchers.is(1)))
+				.andReturn();
+		
+	}
+	
+	@Test
+	void testOrderByIdNotExist() throws Exception {
+		CommonApiResponse apiResponse = CommonApiResponse.builder().status(HttpStatus.NOT_FOUND).build();
+
+		when(orderService.getOrderById(3)).thenReturn(apiResponse);
+		
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/api/v1/order/get/3")
+												.contentType(MediaType.APPLICATION_JSON);
+		
+		mockMvc.perform(request)
+				.andExpect(MockMvcResultMatchers.jsonPath("$.status", Matchers.equalTo(HttpStatus.NOT_FOUND.name())))
+				.andExpect(status().isNotFound()).andReturn();
+		
+	}
+	
+	@Test
+	void testUpdateOrder() throws Exception {
+		
+		CommonApiResponse apiResponse = CommonApiResponse.builder().data(orderDto).status(HttpStatus.CREATED).build();
+		
+		orderDto.setItem_id(2);
+		orderDto.setOrderStatus("ON THE WAY");
+		
+		String jsonRequest = objectMapper.writeValueAsString(orderDto);
+		
+		when(orderService.updateOrder(orderDto)).thenReturn(apiResponse);
+		
+		new ObjectMapper().registerModule(new JavaTimeModule());
+		
+		MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+				.put("/api/v1/order/update")
+				.content(jsonRequest)
+				.contentType(MediaType.APPLICATION_JSON);
+		
+		mockMvc.perform(request)
+		.andExpect(MockMvcResultMatchers.jsonPath("$.data.orderStatus", Matchers.equalTo("ON THE WAY")))
+		.andExpect(MockMvcResultMatchers.jsonPath("$.data.item_id", Matchers.equalTo(2)))
+		.andExpect(status().isOk())
+		.andReturn();	
+
+		
+	}
+	
+	
+	@Test
 	void testDeleteOrderById() throws Exception {
 		CommonApiResponse apiResponse = CommonApiResponse.builder().data("ORDER DELETED SUCCESSFULLY!").status(HttpStatus.OK).build();
 

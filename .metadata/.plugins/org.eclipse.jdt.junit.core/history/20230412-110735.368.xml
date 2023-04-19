@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun ItemServiceImplTest" project="Item-Service" tests="5" started="5" failures="0" errors="0" ignored="0">
-  <testsuite name="com.item.service.impl.ItemServiceImplTest" time="0.868" displayname="ItemServiceImplTest" uniqueid="[engine:junit-jupiter]/[class:com.item.service.impl.ItemServiceImplTest]">
-    <testcase name="testGetItemById" classname="com.item.service.impl.ItemServiceImplTest" time="0.819" displayname="testGetItemById()" uniqueid="[engine:junit-jupiter]/[class:com.item.service.impl.ItemServiceImplTest]/[method:testGetItemById()]"/>
-    <testcase name="testAddItem" classname="com.item.service.impl.ItemServiceImplTest" time="0.008" displayname="testAddItem()" uniqueid="[engine:junit-jupiter]/[class:com.item.service.impl.ItemServiceImplTest]/[method:testAddItem()]"/>
-    <testcase name="testGetAllItems" classname="com.item.service.impl.ItemServiceImplTest" time="0.013" displayname="testGetAllItems()" uniqueid="[engine:junit-jupiter]/[class:com.item.service.impl.ItemServiceImplTest]/[method:testGetAllItems()]"/>
-    <testcase name="testUpdateItem" classname="com.item.service.impl.ItemServiceImplTest" time="0.007" displayname="testUpdateItem()" uniqueid="[engine:junit-jupiter]/[class:com.item.service.impl.ItemServiceImplTest]/[method:testUpdateItem()]"/>
-    <testcase name="testDeleteItem" classname="com.item.service.impl.ItemServiceImplTest" time="0.017" displayname="testDeleteItem()" uniqueid="[engine:junit-jupiter]/[class:com.item.service.impl.ItemServiceImplTest]/[method:testDeleteItem()]"/>
-  </testsuite>
-</testrun>

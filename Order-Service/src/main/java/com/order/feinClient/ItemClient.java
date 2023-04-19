@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.order.payloads.CommonApiResponse;
 import com.order.payloads.ItemDto;
 
-@FeignClient(name = "ITEM-SERVICE",url = "http://localhost:8081/api/v1/item")
+@FeignClient(name = "ITEM-SERVICE",url = "${ITEM_SERVICE_URI:http://localhost}:${ITEM_SERVICE_PORT:8081}/api/v1/item")
 public interface ItemClient {
 
 	@GetMapping("/get-all")

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun ItemControllerTest" project="Item-Service" tests="4" started="4" failures="0" errors="0" ignored="0">
-  <testsuite name="com.item.contorller.ItemControllerTest" time="0.277" displayname="ItemControllerTest" uniqueid="[engine:junit-jupiter]/[class:com.item.contorller.ItemControllerTest]">
-    <testcase name="testDeleteItemById" classname="com.item.contorller.ItemControllerTest" time="0.199" displayname="testDeleteItemById()" uniqueid="[engine:junit-jupiter]/[class:com.item.contorller.ItemControllerTest]/[method:testDeleteItemById()]"/>
-    <testcase name="testAddItem" classname="com.item.contorller.ItemControllerTest" time="0.045" displayname="testAddItem()" uniqueid="[engine:junit-jupiter]/[class:com.item.contorller.ItemControllerTest]/[method:testAddItem()]"/>
-    <testcase name="testGetItemByIdExist" classname="com.item.contorller.ItemControllerTest" time="0.015" displayname="testGetItemByIdExist()" uniqueid="[engine:junit-jupiter]/[class:com.item.contorller.ItemControllerTest]/[method:testGetItemByIdExist()]"/>
-    <testcase name="testGetAllItems" classname="com.item.contorller.ItemControllerTest" time="0.013" displayname="testGetAllItems()" uniqueid="[engine:junit-jupiter]/[class:com.item.contorller.ItemControllerTest]/[method:testGetAllItems()]"/>
-  </testsuite>
-</testrun>

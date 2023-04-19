@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="OrderServiceImplTest" project="Order-Service" tests="5" started="4" failures="0" errors="0" ignored="0">
-  <testsuite name="com.order.service.impl.OrderServiceImplTest" incomplete="true" displayname="OrderServiceImplTest" uniqueid="[engine:junit-jupiter]/[class:com.order.service.impl.OrderServiceImplTest]">
-    <testcase name="testDeleteOrder" classname="com.order.service.impl.OrderServiceImplTest" time="1.533" displayname="testDeleteOrder()" uniqueid="[engine:junit-jupiter]/[class:com.order.service.impl.OrderServiceImplTest]/[method:testDeleteOrder()]"/>
-    <testcase name="testUpdateOrder" classname="com.order.service.impl.OrderServiceImplTest" time="0.119" displayname="testUpdateOrder()" uniqueid="[engine:junit-jupiter]/[class:com.order.service.impl.OrderServiceImplTest]/[method:testUpdateOrder()]"/>
-    <testcase name="testAddOrder" classname="com.order.service.impl.OrderServiceImplTest" time="0.01" displayname="testAddOrder()" uniqueid="[engine:junit-jupiter]/[class:com.order.service.impl.OrderServiceImplTest]/[method:testAddOrder()]"/>
-    <testcase name="testGetAllOrders" classname="com.order.service.impl.OrderServiceImplTest" incomplete="true" displayname="testGetAllOrders()" uniqueid="[engine:junit-jupiter]/[class:com.order.service.impl.OrderServiceImplTest]/[method:testGetAllOrders()]"/>
-    <testcase name="testGetOrderById" classname="com.order.service.impl.OrderServiceImplTest" incomplete="true" displayname="testGetOrderById()" uniqueid="[engine:junit-jupiter]/[class:com.order.service.impl.OrderServiceImplTest]/[method:testGetOrderById()]"/>
-  </testsuite>
-</testrun>

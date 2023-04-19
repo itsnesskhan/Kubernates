@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun testAddOrder()" project="Order-Service" tests="1" started="1" failures="0" errors="0" ignored="0">
-  <testsuite name="com.order.controller.OrderControllerTest" time="0.237" displayname="OrderControllerTest" uniqueid="[engine:junit-jupiter]/[class:com.order.controller.OrderControllerTest]">
-    <testcase name="testAddOrder" classname="com.order.controller.OrderControllerTest" time="0.237" displayname="testAddOrder()" uniqueid="[engine:junit-jupiter]/[class:com.order.controller.OrderControllerTest]/[method:testAddOrder()]"/>
-  </testsuite>
-</testrun>

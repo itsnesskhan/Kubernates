@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="Rerun testDeleteItem()" project="Item-Service" tests="1" started="1" failures="0" errors="0" ignored="0">
-  <testsuite name="com.item.service.impl.ItemServiceImplTest" time="0.772" displayname="ItemServiceImplTest" uniqueid="[engine:junit-jupiter]/[class:com.item.service.impl.ItemServiceImplTest]">
-    <testcase name="testDeleteItem" classname="com.item.service.impl.ItemServiceImplTest" time="0.772" displayname="testDeleteItem()" uniqueid="[engine:junit-jupiter]/[class:com.item.service.impl.ItemServiceImplTest]/[method:testDeleteItem()]"/>
-  </testsuite>
-</testrun>
